@@ -1,0 +1,4 @@
+import os
+
+js = {'md5': '0', 'sha1': '100', 'md4': '900', 'sha256': '1400', 'sha512': '1700', 'ntlm': '1000', 'lm': '3000', 'bcrypt': '3200', 'scrypt': '8900', 'argon2i': '25800', 'argon2d': '25900', 'argon2id': '26000', 'mysql323': '200', 'mysql4.1/mysql5': '300', 'postgresql': '11100', 'unix des': '1500', 'unix md5 crypt': '500', 'unix sha256 crypt': '7400', 'unix sha512 crypt': '1800', 'pbkdf2-hmac-sha1': '12000', 'pbkdf2-hmac-sha256': '10900', 'pbkdf2-hmac-sha512': '12100', 'kerberos 5 as-rep etype 23': '18200', 'kerberos 5 tgs-rep etype 23': '13100', 'wpa/wpa2': '22000', 'wpa-pmkid-pbkdf2': '16800', 'zip (pkzip)': '17200', '7-zip': '11600', 'rar3-hp': '12500', 'rar5': '13000', 'pdf 1.4-1.6': '10500', 'pdf 1.7 level 3': '10700', 'office 2007': '9400', 'office 2010': '9500', 'office 2013': '9600'}
+geth = lambda hashn: js[hashn.lower()]
