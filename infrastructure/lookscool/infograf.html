@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  margin: 0;
+  padding: 20px;
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.card h2 {
+  margin-top: 0;
+  font-size: 18px;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 10px;
+}
+.stat {
+  margin: 10px 0;
+}
+.green { color: #22c55e; }
+.red { color: #ef4444; }
+</style>
+</head>
+<body>
+
+<h1>🖥️ System Monitoring Dashboard</h1>
+<div class="container">
+
+<div class="card">
+  <h2>System Info</h2>
+  <div class="stat">Hostname: <span id="hostname">Loading...</span></div>
+  <div class="stat">User: <span id="user">Loading...</span></div>
+  <div class="stat">Uptime: <span id="uptime">Loading...</span></div>
+  <div class="stat">OS: <span id="os">Loading...</span></div>
+  <div class="stat">Kernel: <span id="kernel">Loading...</span></div>
+</div>
+
+<div class="card">
+  <h2>CPU & Memory</h2>
+  <div class="stat">CPU: <span id="cpu">Loading...</span></div>
+  <div class="stat">Memory: <span id="memory">Loading...</span></div>
+</div>
+
+<div class="card">
+  <h2>Disk</h2>
+  <div class="stat">Usage: <span id="disk">Loading...</span></div>
+</div>
+
+<div class="card">
+  <h2>Network</h2>
+  <div class="stat">IP: <span id="ip">Loading...</span></div>
+  <div class="stat">External IP: <span id="external_ip">Loading...</span></div>
+  <div class="stat">Internet: <span id="internet">Checking...</span></div>
+</div>
+
+</div>
+
+<script>
+async function fetchData() {
+  try {
+    fetch('file:///sysinfo.json')
+		.then(Response => {
+			if (!Response.ok) {
+				throw new Error('HTTP error! Status $(response.status)');
+			}
+			return Response.text();
+		})
+		.then(html => {
+			document.getElementById('hostname').textContent = html.hostname;
+			document.getElementById('user').textContent = html.user;
+			document.getElementById('uptime').textContent = html.uptime;
+			document.getElementById('os').textContent = html.os;
+			document.getElementById('kernel').textContent = html.kernel;
+			document.getElementById('cpu').textContent = html.cpu;
+			document.getElementById('memory').textContent = html.memory;
+			document.getElementById('disk').textContent = html.disk;
+			document.getElementById('ip').textContent = html.ip;
+			document.getElementById('external_ip').textContent = html.external_ip;
+
+			const internet = document.getElementById('internet');
+			if (html.internet === true) {
+			internet.textContent = 'Connected';
+			internet.className = 'green';
+			} else {
+			internet.textContent = 'Disconnected';
+			internet.className = 'red';
+			}
+		})
+		.catch(error => {
+			console.error('Error fetching HTML:', error)
+		});
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+setInterval(fetchData, 3100);
+fetchData();
+</script>
+
+</body>
+</html>
